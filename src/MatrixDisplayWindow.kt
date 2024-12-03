@@ -9,15 +9,9 @@ class MatrixDisplayWindow(private val matrix: MatrixModel) : JFrame() {
     init {
         title = "Матрица #${matrix.id}"
         defaultCloseOperation = JFrame.DISPOSE_ON_CLOSE
-        
-        // Находим размеры матрицы
         val rows = matrix.elements.keys.maxOfOrNull { it.first } ?: 0
         val cols = matrix.elements.keys.maxOfOrNull { it.second } ?: 0
-        
-        // Создаем модель таблицы
         val tableModel = DefaultTableModel(rows, cols)
-        
-        // Заполняем данными
         for (i in 1..rows) {
             for (j in 1..cols) {
                 val value = matrix.elements[Pair(i, j)]
@@ -27,8 +21,6 @@ class MatrixDisplayWindow(private val matrix: MatrixModel) : JFrame() {
                 )
             }
         }
-        
-        // Создаем таблицу
         val table = JTable(tableModel).apply {
             setDefaultEditor(Object::class.java, null) // Делаем таблицу нередактируемой
             setShowGrid(true)
@@ -45,11 +37,7 @@ class MatrixDisplayWindow(private val matrix: MatrixModel) : JFrame() {
             }
             columnModel.columns.toList().forEach { it.cellRenderer = centerRenderer }
         }
-        
-        // Добавляем таблицу на панель с прокруткой
         add(JScrollPane(table))
-        
-        // Устанавливаем размер окна
         setSize(cols * 70 + 50, rows * 50 + 50)
         setLocationRelativeTo(null) // Центрируем окно
     }
